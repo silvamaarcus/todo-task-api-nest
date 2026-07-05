@@ -1,1 +1,1 @@
-npx git-commit-msg-linter
+.git/hooks/commit-msg $1
