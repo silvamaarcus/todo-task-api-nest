@@ -1,14 +1,10 @@
-export enum TaskStatus {
-  TODO = 'TODO',
-  IN_PROGRESS = 'IN_PROGRESS',
-  DONE = 'DONE',
-}
+import { TaskType } from '@prisma/client';
 
 export class Task {
   id!: string;
   title!: string;
-  description?: string;
-  status!: TaskStatus;
+  description!: string | null;
+  status!: TaskType;
   created_at!: Date;
   user_id!: string;
 }
