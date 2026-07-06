@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { PrismaModule } from 'prisma/prisma.module';
 
 import { envValidationSchema } from '@/config/env.validation';
 
@@ -9,6 +10,7 @@ import { envValidationSchema } from '@/config/env.validation';
       isGlobal: true,
       validationSchema: envValidationSchema,
     }),
+    PrismaModule,
   ],
 })
 export class AppModule {}
