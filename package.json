@@ -28,6 +28,8 @@
     "@nestjs/platform-express": "^11.0.1",
     "@prisma/client": "5.22",
     "bcrypt": "^6.0.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.15.1",
     "joi": "^18.2.3",
     "prisma": "^5.22.0",
     "reflect-metadata": "^0.2.2",
