@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 
 import type { IUserRepository } from '@/domain/repositories/user.repository';
@@ -14,7 +14,9 @@ export interface LoginOutput {
 
 @Injectable()
 export class LoginUseCase {
-  constructor(private readonly userRepository: IUserRepository) {} // Injeção de dependência da camada Repository
+  constructor(
+    @Inject('IUserRepository') private readonly userRepository: IUserRepository,
+  ) {} // Injeção de dependência Repository, usando o token 'IUserRepository'
 
   async execute(loginUserParams: LoginInput): Promise<LoginOutput> {
     const user = await this.userRepository.findByEmail(loginUserParams.email); // Verifica se o usuário existe na db
