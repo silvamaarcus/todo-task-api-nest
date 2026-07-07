@@ -1,4 +1,4 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Inject, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -21,7 +21,9 @@ export interface RegisterOutput {
 
 @Injectable()
 export class RegisterUseCase {
-  constructor(private readonly userRepository: IUserRepository) {} // Injeção de dependência da camada Repository
+  constructor(
+    @Inject('IUserRepository') private readonly userRepository: IUserRepository,
+  ) {} // Injeção de dependência Repository, usando o token 'IUserRepository'
 
   async execute(createUserParams: RegisterInput): Promise<RegisterOutput> {
     const existingUser = await this.userRepository.findByEmail(
