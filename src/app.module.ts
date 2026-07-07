@@ -5,6 +5,8 @@ import { envValidationSchema } from '@/config/env.validation';
 import { DatabaseModule } from '@/infra/database/database.module';
 import { PrismaModule } from '@/prisma/prisma.module';
 
+import { AuthModule } from './modules/auth/auth.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -13,6 +15,7 @@ import { PrismaModule } from '@/prisma/prisma.module';
     }),
     PrismaModule,
     DatabaseModule,
+    AuthModule,
   ],
 })
 export class AppModule {}
