@@ -1,5 +1,6 @@
 import {
   ForbiddenException,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -22,7 +23,10 @@ export interface DeleteTaskOutput {
 
 @Injectable()
 export class DeleteTaskUseCase {
-  constructor(private readonly taskRepository: ITaskRepository) {}
+  constructor(
+    @Inject('ITaskRepository')
+    private readonly taskRepository: ITaskRepository,
+  ) {}
 
   async execute(deleteTaskParams: DeleteTaskInput): Promise<DeleteTaskOutput> {
     const taskAlreadyExists = await this.taskRepository.findById(

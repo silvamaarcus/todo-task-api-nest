@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { TaskType } from '@prisma/client';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -22,7 +22,10 @@ export interface CreateTaskOutput {
 
 @Injectable()
 export class CreateTaskUseCase {
-  constructor(private readonly taskRepository: ITaskRepository) {}
+  constructor(
+    @Inject('ITaskRepository')
+    private readonly taskRepository: ITaskRepository,
+  ) {}
 
   async execute(createTaskParams: CreateTaskInput): Promise<CreateTaskOutput> {
     const task = new Task();

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { TaskType } from '@prisma/client';
 
 import type { ITaskRepository } from '@/domain/repositories/task.repository';
@@ -19,7 +19,10 @@ export interface ListTasksUseCaseOutput {
 
 @Injectable()
 export class ListTasksUseCase {
-  constructor(private readonly taskRepository: ITaskRepository) {}
+  constructor(
+    @Inject('ITaskRepository')
+    private readonly taskRepository: ITaskRepository,
+  ) {}
 
   async execute(
     userId: ListTasksUseCaseInput,
