@@ -20,14 +20,14 @@ export class PrismaTaskRepository implements ITaskRepository {
     return this.prisma.task.findUnique({ where: { id } });
   }
 
-  async update(task: Task): Promise<Task> {
+  async update(id: string, userId: string, task: Task): Promise<Task> {
     return this.prisma.task.update({
-      where: { id: task.id },
+      where: { id, user_id: userId },
       data: task,
     });
   }
 
-  async delete(id: string): Promise<void> {
-    await this.prisma.task.delete({ where: { id } });
+  async delete(id: string, userId: string): Promise<void> {
+    await this.prisma.task.delete({ where: { id, user_id: userId } });
   }
 }
