@@ -10,6 +10,7 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { CreateTaskUseCase } from '@/domain/use-cases/tasks/create-task.use-case';
 import { DeleteTaskUseCase } from '@/domain/use-cases/tasks/delete-task.use-case';
@@ -23,6 +24,8 @@ import type { JwtPayload } from '../auth/strategies/jwt.strategy';
 import { CreateTaskDto } from './dtos/create-task.dto';
 import { UpdateTaskDto } from './dtos/update-task.dto';
 
+@ApiTags('Tasks') // Define o grupo de rotas no Swagger
+@ApiBearerAuth() // Indica que esta rota requer autenticação via Bearer Token (JWT)
 @Controller('tasks') // Define a rota base para este controller, todas as rotas serão prefixadas com /tasks
 @UseGuards(JwtGuard) // Garante que todas as rotas deste controller estarão protegidas pelo JWT
 export class TasksController {
@@ -35,6 +38,7 @@ export class TasksController {
   ) {}
 
   // POST /tasks -> criar uma nova tarefa do usuário autenticado
+  @ApiOperation({ summary: 'Criar nova tarefa' }) // Define a descrição da rota no Swagger
   @Post()
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() dto: CreateTaskDto, @CurrentUser() user: JwtPayload) {
@@ -47,6 +51,7 @@ export class TasksController {
   }
 
   // GET /tasks -> listar todas as tarefas do usuário autenticado
+  @ApiOperation({ summary: 'Listar todas as tarefas do usuário autenticado' }) // Define a descrição da rota no Swagger
   @Get()
   async list(@CurrentUser() user: JwtPayload) {
     const allTasks = await this.listTasksUseCase.execute({ user_id: user.sub });
@@ -55,6 +60,7 @@ export class TasksController {
   }
 
   // GET /tasks/:id -> obter uma task pelo Id do usuário autenticado
+  @ApiOperation({ summary: 'Obter uma tarefa pelo Id do usuário autenticado' }) // Define a descrição da rota no Swagger
   @Get(':id')
   async getById(@Param('id') id: string, @CurrentUser() user: JwtPayload) {
     const task = await this.getTaskUseCase.execute({ id, user_id: user.sub });
@@ -63,6 +69,9 @@ export class TasksController {
   }
 
   // PATCH /tasks/:id -> atualizar uma task pelo Id do usuário autenticado
+  @ApiOperation({
+    summary: 'Atualizar uma tarefa pelo Id do usuário autenticado',
+  }) // Define a descrição da rota no Swagger
   @Patch(':id')
   @HttpCode(HttpStatus.OK)
   async update(
@@ -80,6 +89,9 @@ export class TasksController {
   }
 
   // DELETE /tasks/:id -> deletar uma task pelo Id do usuário autenticado
+  @ApiOperation({
+    summary: 'Deletar uma tarefa pelo Id do usuário autenticado',
+  }) // Define a descrição da rota no Swagger
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
   async delete(@Param('id') id: string, @CurrentUser() user: JwtPayload) {
